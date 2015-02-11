@@ -4,8 +4,8 @@ add_action( 'after_setup_theme', 'basurama_theme_setup' );
 function basurama_theme_setup() {
 
 	// hook migration functions
-//	add_action( 'wp_footer','basurama_posts_to_portfolio_pt');
-	add_action( 'wp_footer','basurama_posts_to_portfolio_wpml');
+	add_action( 'wp_footer','basurama_posts_to_portfolio_pt');
+	//add_action( 'wp_footer','basurama_posts_to_portfolio_wpml');
 
 } // end theme setup main function
 
@@ -39,7 +39,7 @@ function basurama_posts_to_portfolio_pt() {
 			/* Type */ elseif ( $c->category_parent == '7' ) {
 				add_post_meta($p->ID, "_basurama_project_type", $c->name);
 				// create term in portfolio_category tax if it doesn't exist
-				if ( !term_exist($c->name,$end_tax) ) { wp_insert_term( $c->name, $end_tax ); }
+				if ( !term_exists($c->name,$end_tax) ) { wp_insert_term( $c->name, $end_tax ); }
 				$end_tax_slugs[] = $c->name;
 			}
 				
@@ -63,6 +63,5 @@ function basurama_posts_to_portfolio_pt() {
 	} // end foreach $projects
 
 } // end move post in project category to portfolio post type
-
 
 ?>
