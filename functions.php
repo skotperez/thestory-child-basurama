@@ -4,8 +4,7 @@ add_action( 'after_setup_theme', 'basurama_theme_setup' );
 function basurama_theme_setup() {
 
 	// hook migration functions
-	add_action( 'wp_footer','basurama_posts_to_portfolio_pt');
-	//add_action( 'wp_footer','basurama_posts_to_portfolio_wpml');
+	// add_action( 'wp_footer','basurama_posts_to_portfolio_pt');
 
 } // end theme setup main function
 
