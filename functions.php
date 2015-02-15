@@ -8,11 +8,12 @@ function basurama_theme_setup() {
 
 } // end theme setup main function
 
-
+////
 // functions for migrate the content in basurama.org
 // to story post types and options
 // february 2015
 ////
+
 // move post in project category to portfolio post type
 function basurama_posts_to_portfolio_pt() {
 	$begin_pt = 'post';
@@ -63,8 +64,32 @@ function basurama_posts_to_portfolio_pt() {
 
 } // end move post in project category to portfolio post type
 
-// Story theme functions redefinition
 ////
+// Functions to modify Story theme functions
+// these functions have the same name that Story's function which they modify,
+// but changing prefix pexeto by basurama
+////
+basurama_get_gallery_thumbnail_html($post) {
+	$output = "";
+	$basu_extra['city'] = get_post_meta($post->ID,'_basurama_project_city');
+	$basu_extra['country'] = get_post_meta($post->ID,'_basurama_project_country');
+	$basu_extra['date'] = get_post_meta($post->ID,'_basurama_project_date');
+	foreach ( $basu_extra as $f ) {
+		if ( count($f) >= 1 ) {
+			$output.='<span class="pg-extra">'.implode( ' / ', $f ).'</span> ';
+		}
+	}
+	return $output;
+}
+
+
+////
+// Story theme functions redefinition:
+//
+// 1. pexeto_get_gallery_thumbnail_html
+// 2. pexeto_get_portfolio_slider_item_html
+////
+
 
 	/**
 	 * Generates the HTML code for a gallery thumbnail item.
@@ -168,14 +193,7 @@ function basurama_posts_to_portfolio_pt() {
 			if ( !in_array( 'category', $exclude_info ) ) {
 				$html.='<span class="pg-categories">'.implode( ' / ', $term_names ).'</span>';
 			}
-			$basu_extra['city'] = get_post_meta($post->ID,'_basurama_project_city');
-			$basu_extra['country'] = get_post_meta($post->ID,'_basurama_project_country');
-			$basu_extra['date'] = get_post_meta($post->ID,'_basurama_project_date');
-			foreach ( $basu_extra as $f ) {
-				if ( count($f) >= 1 ) {
-					$html.='<span class="pg-extra">'.implode( ' / ', $f ).'</span> ';
-				}
-			}
+			$html .= basurama_get_gallery_thumbnail_html($post);
 			$html.='</div></div>';
 		
 
@@ -183,6 +201,5 @@ function basurama_posts_to_portfolio_pt() {
 
 		return $html;
 	}
-
 
 ?>
