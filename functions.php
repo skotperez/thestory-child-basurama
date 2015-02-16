@@ -312,9 +312,9 @@ function basurama_metaboxes( array $meta_boxes ) {
 	/**
 	* Sample metabox to demonstrate each field type included
 	*/
-	$meta_boxes['test_metabox'] = array(
-		'id'            => 'year',
-		'title'         => __( 'Project taxonomies', 'basurama' ),
+	$meta_boxes[] = array(
+		'id'            => 'project_taxs',
+		'title'         => 'Project taxonomies',
 		'object_types'  => array( 'portfolio', ),
 		'context'       => 'normal',
 		'priority'      => 'high',
@@ -323,7 +323,7 @@ function basurama_metaboxes( array $meta_boxes ) {
 		// 'closed'     => true, // Keep the metabox closed by default
 		'fields'        => array(
 			array(
-				'name'       => __( 'Year', 'basurama' ),
+				'name'       => 'Year',
 				//'desc'       => __( 'field description (optional)', 'cmb2' ),
 				'id'         => $prefix . 'project_date',
 				'type'       => 'text',
@@ -334,28 +334,82 @@ function basurama_metaboxes( array $meta_boxes ) {
 				'repeatable'      => true,
 			),
 			array(
-				'name'       => __( 'City', 'basurama' ),
+				'name'       => 'City',
 				'id'         => $prefix . 'project_city',
 				'type'       => 'text',
 				'repeatable'      => true,
 			),
 			array(
-				'name'       => __( 'Country', 'basurama' ),
+				'name'       => 'Country',
 				'id'         => $prefix . 'project_country',
 				'type'       => 'text',
 				'repeatable'      => true,
 			),
 			array(
-				'name'       => __( 'Material', 'basurama' ),
+				'name'       => 'Material',
 				'id'         => $prefix . 'project_material',
 				'type'       => 'text',
 				'repeatable'      => true,
 			),
 		),
 	);
-	
-	// Add other metaboxes as needed
-	
+
+	foreach ( array('coauthor','institution','collaborator') as $f ) {
+		$meta_boxes[] = array(
+			'id'            => 'project_'.$f.'s',
+			'title'         => $f.'s',
+			'object_types'  => array( 'portfolio', ),
+			'context'       => 'normal',
+			'priority'      => 'high',
+			'show_names'    => true,
+			'fields'        => array(
+				array(
+					'id'          => $prefix . $f,
+					'type'        => 'group',
+					'options'     => array(
+						'group_title'   => $f.' {#}', // since version 1.1.4, {#} gets replaced by row number
+						'add_button'    => 'Add Another '.$f,
+						'remove_button' => 'Remove '.$f,
+						'sortable'      => true, // beta
+					),
+					// Fields array works the same, except id's only need to be unique for this group. Prefix is not needed.
+					'fields'      => array(
+						array(
+							'name' => $f.' complete name',
+							'id'   => 'text',
+							'type' => 'text',
+							// 'repeatable' => true, // Repeatable fields are supported w/in repeatable groups (for most types)
+						),
+						array(
+							'name' => 'URL',
+							'id'   => 'url',
+							'type' => 'text_url',
+							'protocols' => array( 'http', 'https' )
+						),
+					),
+				),
+			),
+		);
+	} // end foreach group type fields
+
+	foreach ( array('measurements','financials','thanks') as $f ) {
+		$meta_boxes[] = array(
+			'id'            => 'project_'.$f,
+			'title'         => $f,
+			'object_types'  => array( 'portfolio', ),
+			'context'       => 'normal',
+			'priority'      => 'high',
+			'show_names'    => false,
+			'fields'        => array(
+				array(
+					'name' => $f,
+					'id'   => $prefix . $f,
+					'type' => 'wysiwyg',
+				),
+			),
+		);
+	} // end foreach wysiwyg type fields
+
 	return $meta_boxes;
 }
 
