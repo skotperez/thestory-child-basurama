@@ -6,6 +6,9 @@ function basurama_theme_setup() {
 	// hook migration functions
 	// add_action( 'wp_footer','basurama_posts_to_portfolio_pt');
 
+	// Custom Meta Boxes
+	add_filter( 'cmb2_meta_boxes', 'basurama_metaboxes' );
+
 } // end theme setup main function
 
 ////
@@ -294,5 +297,66 @@ function basurama_get_portfolio_slider_item_html($post) {
 		return $html;
 	}
 
+
+/**
+ * Define the metabox and field configurations.
+ *
+ * @param  array $meta_boxes
+ * @return array
+ */
+function basurama_metaboxes( array $meta_boxes ) {
+
+	// Start with an underscore to hide fields from custom fields list
+	$prefix = '_basurama_';
+	
+	/**
+	* Sample metabox to demonstrate each field type included
+	*/
+	$meta_boxes['test_metabox'] = array(
+		'id'            => 'year',
+		'title'         => __( 'Project taxonomies', 'basurama' ),
+		'object_types'  => array( 'portfolio', ),
+		'context'       => 'normal',
+		'priority'      => 'high',
+		'show_names'    => true, // Show field names on the left
+		// 'cmb_styles' => false, // false to disable the CMB stylesheet
+		// 'closed'     => true, // Keep the metabox closed by default
+		'fields'        => array(
+			array(
+				'name'       => __( 'Year', 'basurama' ),
+				//'desc'       => __( 'field description (optional)', 'cmb2' ),
+				'id'         => $prefix . 'project_date',
+				'type'       => 'text',
+				//'show_on_cb' => 'cmb2_hide_if_no_cats', // function should return a bool value
+				// 'sanitization_cb' => 'my_custom_sanitization', // custom sanitization callback parameter
+				// 'escape_cb'       => 'my_custom_escaping',  // custom escaping callback parameter
+				// 'on_front'        => false, // Optionally designate a field to wp-admin only
+				'repeatable'      => true,
+			),
+			array(
+				'name'       => __( 'City', 'basurama' ),
+				'id'         => $prefix . 'project_city',
+				'type'       => 'text',
+				'repeatable'      => true,
+			),
+			array(
+				'name'       => __( 'Country', 'basurama' ),
+				'id'         => $prefix . 'project_country',
+				'type'       => 'text',
+				'repeatable'      => true,
+			),
+			array(
+				'name'       => __( 'Material', 'basurama' ),
+				'id'         => $prefix . 'project_material',
+				'type'       => 'text',
+				'repeatable'      => true,
+			),
+		),
+	);
+	
+	// Add other metaboxes as needed
+	
+	return $meta_boxes;
+}
 
 ?>
