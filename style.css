@@ -7,3 +7,11 @@ Template:       thestory
 
 @import url("../thestory/style.css");
 
+/* portfolio single styles */
+.ps-side {
+	width: 25%;
+	float: left;
+}
+.ps-content-text {
+	margin-left: 26%;
+}

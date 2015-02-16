@@ -64,12 +64,13 @@ function basurama_posts_to_portfolio_pt() {
 
 } // end move post in project category to portfolio post type
 
+
 ////
 // Functions to modify Story theme functions
 // these functions have the same name that Story's function which they modify,
 // but changing prefix pexeto by basurama
 ////
-basurama_get_gallery_thumbnail_html($post) {
+function basurama_get_gallery_thumbnail_html($post) {
 	$output = "";
 	$basu_extra['city'] = get_post_meta($post->ID,'_basurama_project_city');
 	$basu_extra['country'] = get_post_meta($post->ID,'_basurama_project_country');
@@ -80,7 +81,40 @@ basurama_get_gallery_thumbnail_html($post) {
 		}
 	}
 	return $output;
-}
+} // end basurama_get_gallery_thumbnail_html
+
+function basurama_get_portfolio_slider_item_html($post) {
+	$terms=wp_get_post_terms( $post->ID, PEXETO_PORTFOLIO_TAXONOMY );
+	$term_names=array();
+	foreach ( $terms as $term ) {
+		$term_names[]=$term->name;
+	}
+
+	$output = "";
+	$ps_extra = "";
+	$basu_extra['city'] = get_post_meta($post->ID,'_basurama_project_city');
+	$basu_extra['country'] = get_post_meta($post->ID,'_basurama_project_country');
+	$basu_extra['date'] = get_post_meta($post->ID,'_basurama_project_date');
+	$basu_extra['material'] = get_post_meta($post->ID,'_basurama_project_material');
+	foreach ( $basu_extra as $f ) {
+		if ( count($f) >= 1 ) {
+			$ps_extra.='<div class="ps-extra">'.implode( ' / ', $f ).'</div> ';
+		}
+	}
+
+			$output.='<div class="ps-side">';
+			$output.='<h2 class="ps-title">'.$post->post_title.'</h2>';
+			$content = pexeto_option( 'ps_strip_gallery' ) ?
+				pexeto_remove_gallery_from_content( $post->post_content ) :
+				$post->post_content;
+			$output.='<span class="ps-categories">'.implode( ' / ', $term_names ).'</span>';
+			$output.= $ps_extra;
+			$output.='</div>';
+			$output.='<div class="ps-content-text">'.
+				do_shortcode( apply_filters( 'the_content', $content ) ).'</div>';
+
+	return $output;
+} // basurama_get_portfolio_slider_item_html
 
 
 ////
@@ -201,5 +235,64 @@ basurama_get_gallery_thumbnail_html($post) {
 
 		return $html;
 	}
+
+	/**
+	 * Generates the gallery slider HTML code.
+	 *
+	 * @param int     $itemid the ID of the item(post) that will represent the slider
+	 * @param boolean $single setting whether it is a single item page or the
+	 * slider was loaded from the gallery, as part of the gallery
+	 * @return string          the HTML code of the slider
+	 */
+	function pexeto_get_portfolio_slider_item_html( $itemid, $single=true ) {
+		$html = '';
+		global $post;
+		if ( empty( $post ) || $post->ID !== $itemid ) {
+			$post = get_post( $itemid );
+		}
+
+		$item_type = pexeto_get_single_meta( $itemid, 'type' );
+		$fullwidth = $item_type=='fullslider' || $item_type=='fullvideo'?true:false;
+		$video = $item_type=='fullvideo' || $item_type=='smallvideo'?true:false;
+		$content_class = $video ? 'ps-video':'ps-images';
+
+		$preview = pexeto_get_portfolio_preview_img( $post->ID );
+
+		if ( !empty( $post ) ) {
+			$add_class = $fullwidth ? ' ps-fullwidth':'';
+
+			$html = '<div class="ps-wrapper'.$add_class.'">';
+
+			//add the slider
+			$html.='<div class="'.$content_class.'">';
+			if ( $video ) {
+				global $pexeto_content_sizes;
+				$width = $fullwidth ?
+					$pexeto_content_sizes['fullwidth'] : $pexeto_content_sizes['sliderside'];
+				$video_url=pexeto_get_single_meta( $itemid, 'video' );
+				$html.=pexeto_get_video_html( $video_url, $width );
+			}
+			$html.='</div>';
+
+			//add the content
+			$html.='<div class="ps-content">';
+
+			//get the categories
+			//load the categories assigned to the item	
+			//add the title and content_class
+			$html.= basurama_get_portfolio_slider_item_html($post);
+
+			//add the share buttons
+			$share = pexeto_get_share_btns_html( $itemid, 'slider' );
+			if ( !empty( $share ) ) {
+				$html.='<div class="ps-share">'.$share.'</div>';
+			}
+			$html.='</div>';
+			$html.='<div class="clear"></div></div>';
+		}
+
+		return $html;
+	}
+
 
 ?>
