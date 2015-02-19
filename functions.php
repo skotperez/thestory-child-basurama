@@ -6,15 +6,32 @@ function basurama_theme_setup() {
 	// hook migration functions
 	// add_action( 'wp_footer','basurama_posts_to_portfolio_pt');
 
+	/* Load JavaScript files for admin screens */
+	add_action( 'admin_enqueue_scripts', 'basurama_load_admin_scripts' );
+
 	// Custom Meta Boxes
 	add_filter( 'cmb2_meta_boxes', 'basurama_metaboxes' );
+	/* Meta Box plugin CF registration */
+	add_filter( 'rwmb_meta_boxes', 'basurama_extra_metaboxes' );
 
 } // end theme setup main function
+
+// load js scripts to avoid conflicts
+function basurama_load_admin_scripts() {
+	wp_enqueue_script(
+		'clone-metabox-js',
+		get_stylesheet_directory_uri().'/js/clone.metabox.js',
+		array( 'jquery' ),
+		'0.1',
+		false
+	);
+
+} // end load js scripts to avoid conflicts
+
 
 ////
 // functions for migrate the content in basurama.org
 // to story post types and options
-// february 2015
 ////
 
 // move post in project category to portfolio post type
@@ -93,26 +110,27 @@ function basurama_get_portfolio_slider_item_html($post) {
 		$term_names[]=$term->name;
 	}
 
-	$output = "";
 	$ps_extra = "";
 	$basu_extra['city'] = get_post_meta($post->ID,'_basurama_project_city');
 	$basu_extra['country'] = get_post_meta($post->ID,'_basurama_project_country');
 	$basu_extra['date'] = get_post_meta($post->ID,'_basurama_project_date');
 	$basu_extra['material'] = get_post_meta($post->ID,'_basurama_project_material');
+//	$basu_extra['coauthor'] = get_post_meta($post->ID,'_basurama_project_coauthor');
 	foreach ( $basu_extra as $f ) {
 		if ( count($f) >= 1 ) {
 			$ps_extra.='<div class="ps-extra">'.implode( ' / ', $f ).'</div> ';
 		}
 	}
 
-			$output.='<div class="ps-side">';
+			$output='<div class="ps-side"><div class="ps-side-up">';
 			$output.='<h2 class="ps-title">'.$post->post_title.'</h2>';
 			$content = pexeto_option( 'ps_strip_gallery' ) ?
 				pexeto_remove_gallery_from_content( $post->post_content ) :
 				$post->post_content;
 			$output.='<span class="ps-categories">'.implode( ' / ', $term_names ).'</span>';
 			$output.= $ps_extra;
-			$output.='</div>';
+			$output.='</div><aside class="ps-side-down">';
+			$output.='</aside></div>';
 			$output.='<div class="ps-content-text">'.
 				do_shortcode( apply_filters( 'the_content', $content ) ).'</div>';
 
@@ -126,7 +144,6 @@ function basurama_get_portfolio_slider_item_html($post) {
 // 1. pexeto_get_gallery_thumbnail_html
 // 2. pexeto_get_portfolio_slider_item_html
 ////
-
 
 	/**
 	 * Generates the HTML code for a gallery thumbnail item.
@@ -312,48 +329,6 @@ function basurama_metaboxes( array $meta_boxes ) {
 	/**
 	* Sample metabox to demonstrate each field type included
 	*/
-	$meta_boxes[] = array(
-		'id'            => 'project_taxs',
-		'title'         => 'Project taxonomies',
-		'object_types'  => array( 'portfolio', ),
-		'context'       => 'normal',
-		'priority'      => 'high',
-		'show_names'    => true, // Show field names on the left
-		// 'cmb_styles' => false, // false to disable the CMB stylesheet
-		// 'closed'     => true, // Keep the metabox closed by default
-		'fields'        => array(
-			array(
-				'name'       => 'Year',
-				//'desc'       => __( 'field description (optional)', 'cmb2' ),
-				'id'         => $prefix . 'project_date',
-				'type'       => 'text',
-				//'show_on_cb' => 'cmb2_hide_if_no_cats', // function should return a bool value
-				// 'sanitization_cb' => 'my_custom_sanitization', // custom sanitization callback parameter
-				// 'escape_cb'       => 'my_custom_escaping',  // custom escaping callback parameter
-				// 'on_front'        => false, // Optionally designate a field to wp-admin only
-				'repeatable'      => true,
-			),
-			array(
-				'name'       => 'City',
-				'id'         => $prefix . 'project_city',
-				'type'       => 'text',
-				'repeatable'      => true,
-			),
-			array(
-				'name'       => 'Country',
-				'id'         => $prefix . 'project_country',
-				'type'       => 'text',
-				'repeatable'      => true,
-			),
-			array(
-				'name'       => 'Material',
-				'id'         => $prefix . 'project_material',
-				'type'       => 'text',
-				'repeatable'      => true,
-			),
-		),
-	);
-
 	foreach ( array('coauthor','institution','collaborator') as $f ) {
 		$meta_boxes[] = array(
 			'id'            => 'project_'.$f.'s',
@@ -412,5 +387,64 @@ function basurama_metaboxes( array $meta_boxes ) {
 
 	return $meta_boxes;
 }
+
+// to get all values in a meta key
+// ordered alphabetically or numerically
+function basurama_get_meta($meta_key) {
+	global $wpdb;
+	
+	$table_pm = $wpdb->prefix . "postmeta";
+	$sql_query = "
+		SELECT
+		  pm.meta_value
+		FROM $table_pm pm
+		WHERE pm.meta_key = '$meta_key'
+		ORDER BY pm.meta_value
+	";
+	$query_results = $wpdb->get_results( $sql_query , OBJECT_K );
+	$options = array();
+	foreach ( $query_results as $r ) {
+		$options[$r->meta_value] = $r->meta_value;
+	}
+	return $options;
+}
+
+/*
+ * extra meta boxes
+ * out of Meta Box plugin
+ */
+function basurama_extra_metaboxes( $meta_boxes ) {
+	/**
+	* prefix of meta keys (optional)
+	* Use underscore (_) at the beginning to make keys hidden
+	* Alt.: You also can make prefix empty to disable it
+	*/
+	// Better has an underscore as last sign
+	$prefix = '_basurama_';
+
+	foreach ( array("date","city","country","material") as $mb ) {
+	// Project meta boxex
+	$meta_boxes[] = array(	
+		'id' => 'project_'.$mb,// Meta box id, UNIQUE per meta box. Optional since 4.1.5
+		'title' => 'Project '.$mb, // Meta box title - Will appear at the drag and drop handle bar. Required.	
+		'post_types' => array( 'portfolio' ), // Post types, accept custom post types as well - DEFAULT is 'post'. Can be array (multiple post types) or string (1 post type). Optional.
+		'context' => 'side', // Where the meta box appear: normal (default), advanced, side. Optional.	
+		'priority' => 'high',// Order of meta box: high (default), low. Optional.	
+		'autosave' => true,// Auto save: true, false (default). Optional.
+		// List of meta fields
+		'fields' => array(
+			array(
+				//'name' => 'Years',
+				'id' => "{$prefix}project_".$mb,
+				'type' => 'checkbox_list',
+				// Options of checkboxes, in format 'value' => 'Label'
+				'options' => basurama_get_meta('_basurama_project_'.$mb)
+			)
+		)
+	);
+	}
+	return $meta_boxes;
+
+} // end basurama_extra_metaboxes
 
 ?>
