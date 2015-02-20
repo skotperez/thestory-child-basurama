@@ -37,6 +37,8 @@ function basurama_custom_args_for_loops( $query ) {
 		$query->set( 'order','DESC');
 		$query->set( 'orderby','meta_value_num');
 		$query->set( 'meta_key','_basurama_project_date');
+	} elseif ( !is_admin() && is_search() && $query->is_main_query() ) {
+		$query->set( 'post_type','PEXETO_PORTFOLIO_POST_TYPE');
 	}
 	return $query;
 } // END custom args for loops
