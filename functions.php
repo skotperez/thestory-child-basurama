@@ -148,7 +148,7 @@ function basurama_get_portfolio_slider_item_html($post) {
 		$text = array();
 		if ( is_array($f['text'][0]) ) {
 			foreach ($f['text'][0] as $i ) {
-				if ( array_key_exists('url',$i) ) { $text[] = "<a href='".$i['url']."'>".$i['text']."</a>"; }
+				if ( array_key_exists('url',$i) && $i['url'] != '' ) { $text[] = "<a href='".$i['url']."'>".$i['text']."</a>"; }
 				else { $text[] = $i['text']; }
 			}
 		} else { $text[] = $f['text'][0]; }
