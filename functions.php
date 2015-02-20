@@ -110,29 +110,57 @@ function basurama_get_portfolio_slider_item_html($post) {
 		$term_names[]=$term->name;
 	}
 
+	$ps_basics = "";
 	$ps_extra = "";
-	$basu_extra['city'] = get_post_meta($post->ID,'_basurama_project_city');
-	$basu_extra['country'] = get_post_meta($post->ID,'_basurama_project_country');
-	$basu_extra['date'] = get_post_meta($post->ID,'_basurama_project_date');
-	$basu_extra['material'] = get_post_meta($post->ID,'_basurama_project_material');
-//	$basu_extra['coauthor'] = get_post_meta($post->ID,'_basurama_project_coauthor');
-	foreach ( $basu_extra as $f ) {
-		if ( count($f) >= 1 ) {
-			$ps_extra.='<div class="ps-extra">'.implode( ' / ', $f ).'</div> ';
+	$basu_basics['city'] = array( 'text' => get_post_meta($post->ID,'_basurama_project_city') );
+	$basu_basics['country'] = array( 'text' => get_post_meta($post->ID,'_basurama_project_country') );
+	$basu_basics['date'] = array( 'text' => get_post_meta($post->ID,'_basurama_project_date') );
+	$basu_basics['material'] = array( 'label' => __('Materials','basurama'), 'text' => get_post_meta($post->ID,'_basurama_project_material') );
+	$basu_extra['coauthor'] = array( 'label' => __('Co-authors','basurama'), 'text' => get_post_meta($post->ID,'_basurama_project_coauthor'));
+	$basu_extra['institution'] = array( 'label' => __('Institutions','basurama'), 'text' => get_post_meta($post->ID,'_basurama_project_institution'));
+	$basu_extra['collaborator'] = array( 'label' => __('Collaborators','basurama'), 'text' => get_post_meta($post->ID,'_basurama_project_collaborator'));
+	$basu_extra['measurements'] = array( 'label' => __('Measurements','basurama'), 'text' => get_post_meta($post->ID,'_basurama_project_measurements'));
+	$basu_extra['funder'] = array( 'label' => __('Funded by','basurama'), 'text' => get_post_meta($post->ID,'_basurama_project_funder'));
+	$basu_extra['thanks'] = array( 'label' => __('Thanks to','basurama'), 'text' => get_post_meta($post->ID,'_basurama_project_thanks'));
+
+	foreach ( $basu_basics as $k => $f ) {
+		if ( array_key_exists('label',$f) ) { $label = $f['label'].': '; } else { $label = ''; }
+		if ( count($f['text']) >= 1 ) {
+			$ps_basics .= '<div class="ps-basic ps-basic-'.$k.'">'.$label.implode( ' / ', $f['text'] ).'</div>';
 		}
 	}
 
-			$output='<div class="ps-side"><div class="ps-side-up">';
-			$output.='<h2 class="ps-title">'.$post->post_title.'</h2>';
-			$content = pexeto_option( 'ps_strip_gallery' ) ?
-				pexeto_remove_gallery_from_content( $post->post_content ) :
-				$post->post_content;
-			$output.='<span class="ps-categories">'.implode( ' / ', $term_names ).'</span>';
-			$output.= $ps_extra;
-			$output.='</div><aside class="ps-side-down">';
-			$output.='</aside></div>';
-			$output.='<div class="ps-content-text">'.
-				do_shortcode( apply_filters( 'the_content', $content ) ).'</div>';
+	foreach ( $basu_extra as $k => $f ) {
+	if ( count($f['text']) >= 1 ) {
+		$label = $f['label']. ": ";
+		$text = array();
+		if ( is_array($f['text'][0]) ) {
+			foreach ($f['text'][0] as $i ) {
+				if ( array_key_exists('url',$i) ) { $text[] = "<a href='".$i['url']."'>".$i['text']."</a>"; }
+				else { $text[] = $i['text']; }
+			}
+		} else { $text[] = $f['text'][0]; }
+		if ( count($text) >= 1 ) {
+			$ps_extra .= '<div class="ps-extra ps-extra-'.$k.'">'.$label.implode( ', ',$text).'</div>';
+		}
+	}
+	}
+
+	$output='
+	<div class="ps-side">
+		<div class="ps-side-up">
+			<h2 class="ps-title">'.$post->post_title.'</h2>
+			<span class="ps-categories">'.implode( ' / ', $term_names ).'</span>
+			'.$ps_basics.$ps_extra.'
+		</div>
+		<aside class="ps-side-down">
+		</aside>
+	</div>';
+
+	$content = pexeto_option( 'ps_strip_gallery' ) ?
+		pexeto_remove_gallery_from_content( $post->post_content ) :
+		$post->post_content;
+	$output.='<div class="ps-content-text">'.do_shortcode( apply_filters( 'the_content', $content ) ).'</div>';
 
 	return $output;
 } // basurama_get_portfolio_slider_item_html
@@ -339,7 +367,7 @@ function basurama_metaboxes( array $meta_boxes ) {
 			'show_names'    => true,
 			'fields'        => array(
 				array(
-					'id'          => $prefix . $f,
+					'id'          => $prefix. 'project_' .$f,
 					'type'        => 'group',
 					'options'     => array(
 						'group_title'   => $f.' {#}', // since version 1.1.4, {#} gets replaced by row number
@@ -367,7 +395,7 @@ function basurama_metaboxes( array $meta_boxes ) {
 		);
 	} // end foreach group type fields
 
-	foreach ( array('measurements','financials','thanks') as $f ) {
+	foreach ( array('measurements','funder','thanks') as $f ) {
 		$meta_boxes[] = array(
 			'id'            => 'project_'.$f,
 			'title'         => $f,
@@ -378,7 +406,7 @@ function basurama_metaboxes( array $meta_boxes ) {
 			'fields'        => array(
 				array(
 					'name' => $f,
-					'id'   => $prefix . $f,
+					'id'   => $prefix. 'project_' .$f,
 					'type' => 'wysiwyg',
 				),
 			),
