@@ -14,6 +14,9 @@ function basurama_theme_setup() {
 	/* Meta Box plugin CF registration */
 	add_filter( 'rwmb_meta_boxes', 'basurama_extra_metaboxes' );
 
+	// custom loops for each template
+	add_filter( 'pre_get_posts', 'basurama_custom_args_for_loops' );
+
 } // end theme setup main function
 
 // load js scripts to avoid conflicts
@@ -28,6 +31,15 @@ function basurama_load_admin_scripts() {
 
 } // end load js scripts to avoid conflicts
 
+// custom args for loops
+function basurama_custom_args_for_loops( $query ) {
+	if ( is_page_template('template-portfolio-gallery.php') && array_key_exists('post_type', $query->query_vars ) && $query->query_vars['post_type'] == PEXETO_PORTFOLIO_POST_TYPE ) { 
+		$query->set( 'order','DESC');
+		$query->set( 'orderby','meta_value_num');
+		$query->set( 'meta_key','_basurama_project_date');
+	}
+	return $query;
+} // END custom args for loops
 
 ////
 // functions for migrate the content in basurama.org
@@ -341,7 +353,6 @@ function basurama_get_portfolio_slider_item_html($post) {
 
 		return $html;
 	}
-
 
 /**
  * Define the metabox and field configurations.
