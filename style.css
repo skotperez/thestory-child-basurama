@@ -27,3 +27,12 @@ Template:       thestory
 .basurama-filters a {
 	color: #999 !important;
 }
+
+/* header menu */
+.nav-menu ul li a {
+	letter-spacing: 0;
+}
+ul.menu-ul>.menu-item-language-current>a {
+	background: transparent url("images/flag.png") no-repeat 14px center;
+	padding-left: 32px !important;
+}
