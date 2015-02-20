@@ -15,3 +15,15 @@ Template:       thestory
 .ps-fullwidth .ps-content-text {
 	margin-left: 28%;
 }
+
+/* portfolio gallery */
+.pg-cat-filter ul {
+	display: inline;
+}
+.basurama-filters:before {
+	content: "/";
+	color: #999;
+}
+.basurama-filters a {
+	color: #999 !important;
+}
