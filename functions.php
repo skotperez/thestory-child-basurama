@@ -108,7 +108,7 @@ function basurama_get_gallery_thumbnail_html($post) {
 	$output = "";
 	$city_country = get_post_meta($post->ID,'_basurama_project_city_country_output',true);
 	if ( $city_country != '' ) {
-		$output .= "<p class='pg-extra'>".$city_country."</p>";
+		$output .= "<div class='ps-basic ps-basic-where'>".$city_country."</div>";
 
 	} else {
 		$place = array();
@@ -116,13 +116,13 @@ function basurama_get_gallery_thumbnail_html($post) {
 		$countries = get_post_meta($post->ID,'_basurama_project_country');
 		if ( count($cities) >= 1 ) { $place[] = $cities[0]; }
 		if ( count($countries) >= 1 ) { $place[] = $countries[0]; }
-		$output .= "<span class='pg-extra'>".implode(", ",$place)."</span>";
+		$output .= "<div class='ps-basic ps-basic-where ps-basic-inline'>".implode(", ",$place)."</div>";
 	}
 	$date = get_post_meta($post->ID,'_basurama_project_date');
 	if ( count($date) >> 1 ) {
 		sort($date);
-		$output .= "<span class='pg-extra'>".$date[0]." - ".end($date)."</span>";
-	} else { $output .= " <span class='pg-extra'>".$date[0]."</span>"; }
+		$output .= "<div class='ps-basic ps-basic-when'>".$date[0]." - ".end($date)."</div>";
+	} else { $output .= " <div class='ps-basic ps-basic-when ps-basic-inline'>".$date[0]."</div>"; }
 
 	return $output;
 } // end basurama_get_gallery_thumbnail_html
@@ -134,12 +134,18 @@ function basurama_get_portfolio_slider_item_html($post) {
 		$term_names[]=$term->name;
 	}
 
-	$ps_basics = "";
+	$ps_basics = basurama_get_gallery_thumbnail_html($post);
+	$materials = get_post_meta($post->ID,'_basurama_project_material');
+	if ( count($materials) >= 1 ) {
+		sort($materials);
+		$ps_basics .= '<div class="ps-basic ps-basic-materials">'.__('Materials','basurama').': '.implode( ', ', $materials ).'</div>';
+	}
+
 	$ps_extra = "";
-	$basu_basics['city'] = array( 'text' => get_post_meta($post->ID,'_basurama_project_city') );
-	$basu_basics['country'] = array( 'text' => get_post_meta($post->ID,'_basurama_project_country') );
-	$basu_basics['date'] = array( 'text' => get_post_meta($post->ID,'_basurama_project_date') );
-	$basu_basics['material'] = array( 'label' => __('Materials','basurama'), 'text' => get_post_meta($post->ID,'_basurama_project_material') );
+//	$basu_basics['city'] = array( 'text' => get_post_meta($post->ID,'_basurama_project_city') );
+//	$basu_basics['country'] = array( 'text' => get_post_meta($post->ID,'_basurama_project_country') );
+//	$basu_basics['date'] = array( 'text' => get_post_meta($post->ID,'_basurama_project_date') );
+//	$basu_basics['material'] = array( 'label' => __('Materials','basurama'), 'text' => get_post_meta($post->ID,'_basurama_project_material') );
 	$basu_extra['coauthor'] = array( 'label' => __('Co-authors','basurama'), 'text' => get_post_meta($post->ID,'_basurama_project_coauthor'));
 	$basu_extra['institution'] = array( 'label' => __('Institutions','basurama'), 'text' => get_post_meta($post->ID,'_basurama_project_institution'));
 	$basu_extra['collaborator'] = array( 'label' => __('Collaborators','basurama'), 'text' => get_post_meta($post->ID,'_basurama_project_collaborator'));
@@ -147,16 +153,16 @@ function basurama_get_portfolio_slider_item_html($post) {
 	$basu_extra['funder'] = array( 'label' => __('Funded by','basurama'), 'text' => get_post_meta($post->ID,'_basurama_project_funder'));
 	$basu_extra['thanks'] = array( 'label' => __('Thanks to','basurama'), 'text' => get_post_meta($post->ID,'_basurama_project_thanks'));
 
-	foreach ( $basu_basics as $k => $f ) {
-		if ( array_key_exists('label',$f) ) { $label = $f['label'].': '; } else { $label = ''; }
-		if ( count($f['text']) >= 1 ) {
-			$ps_basics .= '<div class="ps-basic ps-basic-'.$k.'">'.$label.implode( ' / ', $f['text'] ).'</div>';
-		}
-	}
+//	foreach ( $basu_basics as $k => $f ) {
+//		if ( array_key_exists('label',$f) ) { $label = $f['label'].': '; } else { $label = ''; }
+//		if ( count($f['text']) >= 1 ) {
+//			$ps_basics .= '<div class="ps-basic ps-basic-'.$k.'">'.$label.implode( ' / ', $f['text'] ).'</div>';
+//		}
+//	}
 
 	foreach ( $basu_extra as $k => $f ) {
 	if ( count($f['text']) >= 1 ) {
-		$label = $f['label']. ": ";
+		$label = $f['label'];
 		$text = array();
 		if ( is_array($f['text'][0]) ) {
 			foreach ($f['text'][0] as $i ) {
@@ -165,7 +171,7 @@ function basurama_get_portfolio_slider_item_html($post) {
 			}
 		} else { $text[] = $f['text'][0]; }
 		if ( count($text) >= 1 ) {
-			$ps_extra .= '<div class="ps-extra ps-extra-'.$k.'">'.$label.implode( ', ',$text).'</div>';
+			$ps_extra .= '<div class="ps-extra ps-extra-'.$k.'"><div class="ps-extra-label">'.$label.'</div><div class="ps-extra-text">'.implode( ', ',$text).'</div></div>';
 		}
 	}
 	}
@@ -175,9 +181,10 @@ function basurama_get_portfolio_slider_item_html($post) {
 		<div class="ps-side-up">
 			<h2 class="ps-title">'.$post->post_title.'</h2>
 			<span class="ps-categories">'.implode( ' / ', $term_names ).'</span>
-			'.$ps_basics.$ps_extra.'
+			'.$ps_basics.'
 		</div>
 		<aside class="ps-side-down">
+			'.$ps_extra.'
 		</aside>
 	</div>';
 

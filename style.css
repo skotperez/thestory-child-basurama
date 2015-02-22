@@ -15,6 +15,27 @@ Template:       thestory
 .ps-fullwidth .ps-content-text {
 	margin-left: 28%;
 }
+.ps-side-up {
+	padding-bottom: 20px;
+	border-bottom: 5px solid #ddd;
+	margin-bottom: 20px;
+}
+.ps-basic,
+.ps-extra-text {
+	color: #b3b3b1;
+}
+.ps-extra {
+	padding-bottom: 1em;
+}
+.ps-extra-label {
+/*	color: #fff;
+	background-color: #ddd;
+	padding: 1px 3px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
+*/
+}
 
 /* portfolio gallery */
 .pg-cat-filter ul {
@@ -26,6 +47,10 @@ Template:       thestory
 }
 .basurama-filters a {
 	color: #999 !important;
+}
+.pg-item .ps-basic-inline {
+	display: inline-block;
+	margin-left: 2px;
 }
 
 /* header menu */
