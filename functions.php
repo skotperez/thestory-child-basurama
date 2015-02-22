@@ -106,14 +106,24 @@ function basurama_posts_to_portfolio_pt() {
 ////
 function basurama_get_gallery_thumbnail_html($post) {
 	$output = "";
-	$basu_extra['city'] = get_post_meta($post->ID,'_basurama_project_city');
-	$basu_extra['country'] = get_post_meta($post->ID,'_basurama_project_country');
-	$basu_extra['date'] = get_post_meta($post->ID,'_basurama_project_date');
-	foreach ( $basu_extra as $f ) {
-		if ( count($f) >= 1 ) {
-			$output.='<span class="pg-extra">'.implode( ' / ', $f ).'</span> ';
-		}
+	$city_country = get_post_meta($post->ID,'_basurama_project_city_country_output',true);
+	if ( $city_country != '' ) {
+		$output .= "<p class='pg-extra'>".$city_country."</p>";
+
+	} else {
+		$place = array();
+		$cities = get_post_meta($post->ID,'_basurama_project_city');
+		$countries = get_post_meta($post->ID,'_basurama_project_country');
+		if ( count($cities) >= 1 ) { $place[] = $cities[0]; }
+		if ( count($countries) >= 1 ) { $place[] = $countries[0]; }
+		$output .= "<span class='pg-extra'>".implode(", ",$place)."</span>";
 	}
+	$date = get_post_meta($post->ID,'_basurama_project_date');
+	if ( count($date) >> 1 ) {
+		sort($date);
+		$output .= "<span class='pg-extra'>".$date[0]." - ".end($date)."</span>";
+	} else { $output .= " <span class='pg-extra'>".$date[0]."</span>"; }
+
 	return $output;
 } // end basurama_get_gallery_thumbnail_html
 
@@ -484,6 +494,22 @@ function basurama_extra_metaboxes( $meta_boxes ) {
 		)
 	);
 	}
+	$meta_boxes[] = array(
+		'title' => __('If multiple cities or countries'),
+		'post_types' => array( 'portfolio' ), // Post types, accept custom post types as well - DEFAULT is 'post'. Can be array (multiple post types) or string (1 post type). Optional.
+		'context' => 'side', // Where the meta box appear: normal (default), advanced, side. Optional.	
+		'priority' => 'high',// Order of meta box: high (default), low. Optional.	
+		'fields' => array(
+			// Group
+			array(
+				//'name' => 'Group', // Optional
+				'id' => $prefix.'project_city_country_output',
+				'desc' => __('If the project has took place in more than one city or country, write here all the cities and countries with the exact format you want them to appear in Portfolio and project page. And fill in the city and country checkboxes too.'),
+				'type' => 'WYSIWYG',
+				'raw' => true
+			),
+		),
+	);
 	return $meta_boxes;
 
 } // end basurama_extra_metaboxes
