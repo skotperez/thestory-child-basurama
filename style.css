@@ -15,19 +15,35 @@ Template:       thestory
 .ps-fullwidth .ps-content-text {
 	margin-left: 28%;
 }
-.ps-side-up {
-	padding-bottom: 20px;
-	border-bottom: 5px solid #ddd;
-	margin-bottom: 20px;
+.ps-basic-materials {
+	padding-top: 3px;
+	border-top: 3px solid #000;
+	margin-top: 5px;
 }
-.ps-basic,
-.ps-extra-text {
-	color: #b3b3b1;
+.ps-title {
+	line-height: 1em;
+	color: #000;
+}
+.ps-side-title {
+	border-bottom: 1px solid #ddd;
+	color: #000;
+	font-size: 12px;
+	font-weight: bold;
+}
+.ps-basic {
+	font-size: 12px;
+	color: #000;
+}
+.ps-side-down {
+	margin-top: 150px;
 }
 .ps-extra {
+	color: #000;
+	font-size: 12px;
 	padding-bottom: 1em;
 }
 .ps-extra-label {
+	text-transform: uppercase;
 /*	color: #fff;
 	background-color: #ddd;
 	padding: 1px 3px;
