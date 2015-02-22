@@ -17,6 +17,9 @@ function basurama_theme_setup() {
 	// custom loops for each template
 	add_filter( 'pre_get_posts', 'basurama_custom_args_for_loops' );
 
+	// get last year of a project and add the number as a CF to sort portfolio gallery
+	add_action('save_post', 'basurama_project_add_last_year_cf',10);
+
 } // end theme setup main function
 
 // load js scripts to avoid conflicts
@@ -36,12 +39,23 @@ function basurama_custom_args_for_loops( $query ) {
 	if ( is_page_template('template-portfolio-gallery.php') && array_key_exists('post_type', $query->query_vars ) && $query->query_vars['post_type'] == PEXETO_PORTFOLIO_POST_TYPE ) { 
 		$query->set( 'order','DESC');
 		$query->set( 'orderby','meta_value_num');
-		$query->set( 'meta_key','_basurama_project_date');
+		$query->set( 'meta_key','_basurama_project_date_last');
 	} elseif ( !is_admin() && is_search() && $query->is_main_query() ) {
 		$query->set( 'post_type','PEXETO_PORTFOLIO_POST_TYPE');
 	}
 	return $query;
 } // END custom args for loops
+
+// get last year of a project and add the number as a CF to sort portfolio gallery
+function basurama_project_add_last_year_cf($post_id) {
+	global $post;
+	if ( wp_is_post_revision( $post_id ) || PEXETO_PORTFOLIO_POST_TYPE != get_post_type($post_id) )
+		return;
+
+	$years = get_post_meta($post_id,'_basurama_project_date');
+	rsort($years);
+	update_post_meta($post_id,'_basurama_project_date_last',$years[0]);
+} // END get last year of a project and add the number as a CF to sort portfolio gallery
 
 ////
 // functions for migrate the content in basurama.org
