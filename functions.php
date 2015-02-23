@@ -474,7 +474,21 @@ function basurama_get_meta($meta_key) {
 		$options[$r->meta_value] = $r->meta_value;
 	}
 	return $options;
-}
+} // END to get all values in a meta key
+
+// to get all post IDs of one post type
+// this functions is used to make changes directly in the DB
+function basurama_get_post_ids($post_type) {
+	$args = array(
+		'post_type' => $post_type,
+		'nopaging' => true,
+		'meta_key' => '_thumbnail_id'
+	);
+	$posts = get_posts($args);
+	$post_ids = array();
+	foreach ( $posts as $p ) { $post_ids[] = $p->ID; }
+	return implode(", ",$post_ids);
+} // END to get all post IDs of one post type
 
 /*
  * extra meta boxes
