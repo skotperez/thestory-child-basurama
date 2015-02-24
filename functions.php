@@ -155,27 +155,33 @@ function basurama_get_portfolio_slider_item_html($post) {
 	$materials = get_post_meta($post->ID,'_basurama_project_material');
 	if ( count($materials) >= 1 ) {
 		sort($materials);
-		$ps_basics .= '<div class="ps-basic ps-basic-materials">'.implode( ', ', $materials ).'</div>';
+		$ps_basics .= '<div class="ps-basic ps-basic-materials">'.implode( '. ', $materials ).'.</div>';
 	}
 
 	$ps_extra = "";
-	$basu_extra['coauthor'] = array( 'label' => __('Co-authors','basurama'), 'text' => get_post_meta($post->ID,'_basurama_project_coauthor'));
-	$basu_extra['institution'] = array( 'label' => __('Institutions','basurama'), 'text' => get_post_meta($post->ID,'_basurama_project_institution'));
-	$basu_extra['collaborator'] = array( 'label' => __('Collaborators','basurama'), 'text' => get_post_meta($post->ID,'_basurama_project_collaborator'));
-	$basu_extra['measurements'] = array( 'label' => __('Measurements','basurama'), 'text' => get_post_meta($post->ID,'_basurama_project_measurements'));
-	$basu_extra['funder'] = array( 'label' => __('Funded by','basurama'), 'text' => get_post_meta($post->ID,'_basurama_project_funder'));
-	$basu_extra['thanks'] = array( 'label' => __('Thanks to','basurama'), 'text' => get_post_meta($post->ID,'_basurama_project_thanks'));
+	$basu_extra['coauthor'] = array( 'label' => __('Co-authors','basurama'), 'text' => get_post_meta($post->ID,'_basurama_project_coauthor',true));
+	$basu_extra['institution'] = array( 'label' => __('Institutions','basurama'), 'text' => get_post_meta($post->ID,'_basurama_project_institution',true));
+	$basu_extra['collaborator'] = array( 'label' => __('Collaborators','basurama'), 'text' => get_post_meta($post->ID,'_basurama_project_collaborator',true));
+	$wysiwyg_fields = array(
+		array( __('Measurements','basurama'),'measurements' ),
+		array( __('Funded by','basurama'),'funder' ),
+		array( __('Thanks to','basurama'),'thanks' )
+	);
+	foreach ( $wysiwyg_fields as $w ) {
+		$text = get_post_meta($post->ID,'_basurama_project_'.$w[1],true);
+		if ( $text != '' ) { $basu_extra[$w[1]] = array( 'label' => $w[0], 'text' => wpautop($text) ); }
+	}
 
 	foreach ( $basu_extra as $k => $f ) {
-		if ( count($f['text']) >= 1 ) {
+		if ( count($f['text']) !=  '' ) {
 			$label = $f['label'];
 			$text = array();
-			if ( is_array($f['text'][0]) ) {
-				foreach ($f['text'][0] as $i ) {
+			if ( is_array($f['text']) ) {
+				foreach ($f['text'] as $i ) {
 					if ( array_key_exists('url',$i) && $i['url'] != '' ) { $text[] = "<a href='".$i['url']."'>".$i['text']."</a>"; }
 					else { $text[] = $i['text']; }
 				}
-			} else { $text[] = $f['text'][0]; }
+			} else { $text[] = $f['text']; }
 			if ( count($text) >= 1 ) {
 				$ps_extra .= '<div class="ps-extra ps-extra-'.$k.'"><div class="ps-extra-label">'.$label.'</div><div class="ps-extra-text">'.implode( ', ',$text).'</div></div>';
 			}

@@ -17,7 +17,7 @@ Template:       thestory
 }
 .ps-basic-materials {
 	padding-top: 3px;
-	border-top: 3px solid #000;
+	border-top: 1px solid #000;
 	margin-top: 5px;
 }
 .ps-title {
@@ -57,10 +57,10 @@ Template:       thestory
 .pg-cat-filter ul {
 	display: inline;
 }
-.basurama-filters:before {
+/*.basurama-filters:before {
 	content: "/";
 	color: #999;
-}
+}*/
 .basurama-filters a {
 	color: #999 !important;
 }
@@ -74,6 +74,6 @@ Template:       thestory
 	letter-spacing: 0;
 }
 ul.menu-ul>.menu-item-language-current>a {
-	background: transparent url("images/flag.png") no-repeat 14px center;
-	padding-left: 32px !important;
+/*	background: transparent url("images/flag.png") no-repeat 14px center;
+	padding-left: 32px !important;*/
 }
