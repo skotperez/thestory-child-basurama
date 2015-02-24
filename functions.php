@@ -20,6 +20,9 @@ function basurama_theme_setup() {
 	// get last year of a project and add the number as a CF to sort portfolio gallery
 	add_action('save_post', 'basurama_project_add_last_year_cf',10);
 
+	// load text domain for child theme
+	load_theme_textdomain('basurama', get_stylesheet_directory_uri() . '/lang');
+	
 } // end theme setup main function
 
 // load js scripts to avoid conflicts

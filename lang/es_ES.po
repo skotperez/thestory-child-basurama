@@ -1,0 +1,61 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Child theme of Story for basurama\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-02-24 15:48+0100\n"
+"PO-Revision-Date: \n"
+"Last-Translator: skotperez <skotperez@voragine.net>\n"
+"Language-Team:  <info@basurama.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Spanish\n"
+"X-Poedit-Country: SPAIN\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-KeywordsList: __;_e;_n;_n:1,2\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPath-1: ..\n"
+
+#: ../template-portfolio-gallery.php:56
+msgid "All"
+msgstr "Todos"
+
+#: ../functions.php:162
+msgid "Co-authors"
+msgstr "Co-autores"
+
+#: ../functions.php:163
+msgid "Institutions"
+msgstr "Instituciones"
+
+#: ../functions.php:164
+msgid "Collaborators"
+msgstr "Colaboradores"
+
+#: ../functions.php:165
+msgid "Measurements"
+msgstr "Tamaño"
+
+#: ../functions.php:166
+msgid "Funded by"
+msgstr "Financiado por"
+
+#: ../functions.php:167
+msgid "Thanks to"
+msgstr "Agradecimientos"
+
+#: ../functions.php:196
+msgid "Technical details"
+msgstr "Ficha ténica"
+
+#: ../functions.php:531
+msgid "If multiple cities or countries"
+msgstr "Rellenar si el proyecto tiene múltiples ciudades o países"
+
+#: ../functions.php:540
+msgid "If the project has took place in more than one city or country, write here all the cities and countries with the exact format you want them to appear in Portfolio and project page. And fill in the city and country checkboxes too."
+msgstr "Si el proyecto tuvo lugar en más de una ciudad o país, escribe a continuación todas las ciudades y países con el formato exacto en el que quieras que aparezcan en la página de Portfolio y en la del proyecto. No olvides marcar las ciudades y países en los listados encima de esta caja."
+

@@ -1,0 +1,244 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Story\n"
+"POT-Creation-Date: 2014-05-19 16:05+1000\n"
+"PO-Revision-Date: 2015-02-24 16:35+0100\n"
+"Last-Translator: skotperez <skotperez@voragine.net>\n"
+"Language-Team:  <info@basurama.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.6.5\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"Language: en_US\n"
+"X-Poedit-Language: Spanish\n"
+"X-Poedit-Country: SPAIN\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-SearchPath-0: ../../thestory\n"
+
+#: 404.php:11
+#: functions/functions-general.php:27
+msgid "Page not found"
+msgstr "Página no encontrada"
+
+#: 404.php:19
+msgid "The requested page has not been found"
+msgstr "La página solicitada no ha sido encontrada"
+
+#: archive.php:44
+#: index.php:36
+#: template-blog.php:88
+msgid "No posts available"
+msgstr "No hay entradas disponibles"
+
+#: comments.php:14
+msgid "No comments"
+msgstr "Ningún comentario"
+
+#: comments.php:14
+msgid "One comment"
+msgstr "Un comentario"
+
+#: comments.php:14
+#: includes/post-template.php:189
+msgid "comments"
+msgstr "comentarios"
+
+#: comments.php:26
+msgid "Newer comments"
+msgstr "Comentarios posteriores"
+
+#: comments.php:29
+msgid "Older comments"
+msgstr "Comentarios anteriores"
+
+#: comments.php:35
+#: functions/shortcodes.php:439
+#: includes/contact-form.php:9
+msgid "Name"
+msgstr "Nombre"
+
+#: comments.php:37
+msgid "E-mail"
+msgstr "Correo electrónico"
+
+#: comments.php:39
+msgid "Website"
+msgstr "Sitio web"
+
+#: comments.php:44
+msgid "Your comment"
+msgstr "Tu comentario"
+
+#: comments.php:47
+msgid "Leave a comment"
+msgstr "Comentar"
+
+#: comments.php:48
+msgid "Submit comment"
+msgstr "Enviar comentario"
+
+#: comments.php:50
+msgid "Leave a reply to"
+msgstr "Responder a"
+
+#: comments.php:51
+msgid "Cancel reply"
+msgstr "Cancelar respuesta"
+
+#: footer.php:19
+msgid "Call to action section title"
+msgstr "Título de la sección"
+
+#: footer.php:20
+msgid "Call to action section description"
+msgstr "Descripción"
+
+#: footer.php:21
+msgid "Call to action button text"
+msgstr "Texto del botón"
+
+#: footer.php:64
+msgid "Copyright"
+msgstr "Copyright"
+
+#: functions/comments.php:19
+msgid "Pingback:"
+msgstr "Pingback:"
+
+#: functions/comments.php:25
+msgid "Reply"
+msgstr "Respuesta"
+
+#: functions/functions-general.php:21
+msgid "Category"
+msgstr "Categoría"
+
+#: functions/functions-general.php:23
+msgid "Tag"
+msgstr "Etiqueta"
+
+#: functions/functions-general.php:25
+msgid "Search results"
+msgstr "Resultados de búsqueda"
+
+#: functions/gallery.php:274
+msgid "Prev Project"
+msgstr "Proyecto anterior"
+
+#: functions/gallery.php:282
+msgid "Back to gallery"
+msgstr "Volver al mosaico"
+
+#: functions/gallery.php:285
+msgid "Next project"
+msgstr "Proyecto siguiente"
+
+#: functions/gallery.php:343
+msgid "Related Projects"
+msgstr "Proyectos relacionados"
+
+#: functions/html-builders.php:89
+msgid "Share"
+msgstr "Compartir"
+
+#: functions/html-builders.php:390
+#: includes/post-template.php:148
+#: includes/post-template.php:158
+msgid "Read More"
+msgstr "Seguir leyendo"
+
+#: functions/scripts-and-styles.php:268
+msgid "An error occurred. Message not sent."
+msgstr "Se produjo un problema. El mensaje no fue enviado."
+
+#: functions/scripts-and-styles.php:269
+msgid "Please complete all the fields correctly"
+msgstr "Por favor, completa todos los campos adecuadamente"
+
+#: functions/scripts-and-styles.php:270
+msgid "Message sent"
+msgstr "Mensaje enviado"
+
+#: functions/shortcodes.php:441
+msgid "Your e-mail"
+msgstr "Correo electrónico"
+
+#: functions/shortcodes.php:446
+msgid "Send"
+msgstr "Emviar"
+
+#: header.php:108
+msgid "Menu"
+msgstr "Menú"
+
+#: includes/contact-form.php:17
+msgid "E-mail address"
+msgstr "Dirección de correo electrónico"
+
+#: includes/contact-form.php:25
+msgid "Your message"
+msgstr "Mensaje"
+
+#: includes/contact-form.php:38
+msgid "Insert the text from the image"
+msgstr "Añade el texto de la imagen"
+
+#: includes/contact-form.php:43
+msgid "Get a new challenge"
+msgstr "Nueva pregunta"
+
+#: includes/contact-form.php:58
+msgid "Send Message"
+msgstr "Enviar mensaje"
+
+#: includes/post-pagination.php:9
+msgid "Previous"
+msgstr "Anterior"
+
+#: includes/post-pagination.php:10
+msgid "Next"
+msgstr "Siguiente"
+
+#: includes/post-template.php:104
+msgid "by"
+msgstr "por"
+
+#: includes/post-template.php:180
+msgid "in"
+msgstr "en"
+
+#: includes/post-template.php:207
+msgid "Post tags"
+msgstr "Etiquetas"
+
+#: search.php:9
+msgid "Search results for"
+msgstr "Resultados de la búsqueda"
+
+#: search.php:32
+msgid "No results found"
+msgstr "Ningún resultado"
+
+#: searchform.php:8
+msgid "Search"
+msgstr "Búsqueda"
+
+#: template-archive.php:25
+msgid "Categories"
+msgstr "Categorías"
+
+#: template-archive.php:29
+msgid "Monthly archive"
+msgstr "Archivo por meses"
+
+#: template-archive.php:33
+msgid "Post List"
+msgstr "Listado de entradas"
+
+#: template-portfolio-gallery.php:56
+msgid "All"
+msgstr "Todo"
+
