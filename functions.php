@@ -8,6 +8,7 @@ function basurama_theme_setup() {
 
 	/* Load JavaScript files for admin screens */
 	add_action( 'admin_enqueue_scripts', 'basurama_load_admin_scripts' );
+//	add_action( 'wp_enqueue_scripts', 'basurama_load_frontend_scripts');
 
 	// Custom Meta Boxes
 	add_filter( 'cmb2_meta_boxes', 'basurama_metaboxes' );
@@ -34,8 +35,20 @@ function basurama_load_admin_scripts() {
 		'0.1',
 		false
 	);
+ 
+} // end load eadmin js scripts to avoid conflicts
 
-} // end load js scripts to avoid conflicts
+// load js scripts to avoid conflicts
+//function basurama_load_frontend_scripts() {
+//		wp_enqueue_script(
+//		'script-js',
+//		get_stylesheet_directory_uri().'/js/script.js',
+//		array( 'jquery' ),
+//		'0.1',
+//		false
+//	);
+//
+//} // end load frontend js scripts to avoid conflicts
 
 // custom args for loops
 function basurama_custom_args_for_loops( $query ) {
