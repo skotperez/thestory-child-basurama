@@ -173,7 +173,7 @@ function basurama_get_portfolio_slider_item_html($post) {
 	}
 
 	foreach ( $basu_extra as $k => $f ) {
-		if ( count($f['text']) !=  '' ) {
+		if ( $f['text'] !=  '' ) {
 			$label = $f['label'];
 			$text = array();
 			if ( is_array($f['text']) ) {
