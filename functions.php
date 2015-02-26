@@ -505,22 +505,58 @@ function basurama_metaboxes( array $meta_boxes ) {
 // to get all values in a meta key
 // ordered alphabetically or numerically
 function basurama_get_meta($meta_key) {
+
+	if ( !array_key_exists('post',$_GET) )
+		return;
+
 	global $wpdb;
+	if ( function_exists('icl_object_id') ) {
+		$post_id = sanitize_text_field($_GET['post']);
+		$table_tr = $wpdb->prefix . "icl_translations";
+		$sql_query = "
+			SELECT
+			  tr.language_code
+			FROM $table_tr tr
+			WHERE tr.element_type = 'post_portfolio'
+			  AND tr.element_id = '$post_id'
+		";
+		$post_lang = $wpdb->get_results( $sql_query );
+		$lang_code = $post_lang[0]->language_code;
+
+		$table_pm = $wpdb->prefix . "postmeta";
+		$sql_query = "
+			SELECT
+			  pm.meta_value
+			FROM $table_pm pm
+			INNER JOIN $table_tr tr
+			  ON pm.post_id = tr.element_id
+			WHERE pm.meta_key = '$meta_key'
+			  AND tr.element_type = 'post_portfolio'
+			  AND tr.language_code = '$lang_code'
+			ORDER BY pm.meta_value
+		";
+		$query_results = $wpdb->get_results( $sql_query , OBJECT_K );
+
+	} else {
+		$table_pm = $wpdb->prefix . "postmeta";
+		$sql_query = "
+			SELECT
+			pm.meta_value
+			FROM $table_pm pm
+			WHERE pm.meta_key = '$meta_key'
+			ORDER BY pm.meta_value
+		";
+		$query_results = $wpdb->get_results( $sql_query , OBJECT_K );
+
+	} // END if WPML plugin is active
 	
-	$table_pm = $wpdb->prefix . "postmeta";
-	$sql_query = "
-		SELECT
-		  pm.meta_value
-		FROM $table_pm pm
-		WHERE pm.meta_key = '$meta_key'
-		ORDER BY pm.meta_value
-	";
-	$query_results = $wpdb->get_results( $sql_query , OBJECT_K );
+
 	$options = array();
 	foreach ( $query_results as $r ) {
 		$options[$r->meta_value] = $r->meta_value;
 	}
 	return $options;
+
 } // END to get all values in a meta key
 
 // to get all post IDs of one post type
