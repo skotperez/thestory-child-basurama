@@ -177,7 +177,7 @@ function basurama_get_gallery_thumbnail_html($post) {
 	if ( count($date) >> 1 ) {
 		sort($date);
 		$output .= "<div class='ps-basic ps-basic-when'>".$date[0]." - ".end($date)."</div>";
-	} else { $output .= " <div class='ps-basic ps-basic-when ps-basic-inline'>".$date[0]."</div>"; }
+	} elseif ( count($date) == 1 ) { $output .= " <div class='ps-basic ps-basic-when ps-basic-inline'>".$date[0]."</div>"; }
 
 	return $output;
 } // end basurama_get_gallery_thumbnail_html
