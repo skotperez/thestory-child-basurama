@@ -68,7 +68,12 @@ if(have_posts()){
 				$basurama_filters = "";
 				foreach ($pexeto_gal->cats as $c) {
 					$pexeto_gal->cclass = $pexeto_gal->cat==$c->slug?'class="'.$pexeto_gal->current_class.'"':'';
-					if ( $c->slug == '6000km' || $c->slug == 'auto' || $c->slug == 'in-love-we-trash' || $c->slug == 'rus' ) {
+					if (
+						$c->slug == '6000km' || $c->slug == 'auto' || $c->slug == 'in-love-we-trash' || $c->slug == 'rus' ||
+						$c->slug == '6000km-en' || $c->slug == 'auto-en' || $c->slug == 'in-love-we-trash-en' || $c->slug == 'rus-en' ||
+						$c->slug == '6000km-fr' || $c->slug == 'auto-fr' || $c->slug == 'in-love-we-trash-fr' || $c->slug == 'rus-fr' ||
+						$c->slug == '6000km-pt-br' || $c->slug == 'auto-pt-br' || $c->slug == 'in-love-we-trash-pt-br' || $c->slug == 'rus-pt-br'
+					) {
 					$basurama_filters .= '
 					<li>
 						<a href="' .esc_url (add_query_arg( $pexeto_gal->cat_key, $c->slug, $pexeto_gal->page_url ) ). '" ' .$pexeto_gal->cclass. ' data-cat="' .$c->slug.'">' .$c->name.'</a>
