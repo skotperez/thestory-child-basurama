@@ -4,7 +4,7 @@ add_action( 'after_setup_theme', 'basurama_theme_setup' );
 function basurama_theme_setup() {
 
 	// hook migration functions
-	// add_action( 'wp_footer','basurama_posts_to_portfolio_pt');
+//	add_action( 'wp_footer','basurama_posts_to_portfolio_pt');
 
 	/* Load JavaScript files for admin screens */
 	add_action( 'admin_enqueue_scripts', 'basurama_load_admin_scripts' );
@@ -80,6 +80,8 @@ function basurama_project_add_last_year_cf($post_id) {
 
 // move post in project category to portfolio post type
 function basurama_posts_to_portfolio_pt() {
+//	$cat = 'projects';
+	$cat = 'projetos';
 	$begin_pt = 'post';
 	$begin_tax = 'category';
 	$end_pt = 'portfolio';
@@ -87,11 +89,19 @@ function basurama_posts_to_portfolio_pt() {
 
 	$args = array(
 		'post_type' => $begin_pt,
-		'category_name' => 'proyecto',
+		'category_name' => $cat,
 		'nopaging' => true
 	);
 	$projects = get_posts($args);
+	$update_ids = array();
+	$update_where = array();
 	foreach ( $projects as $p ) {
+		$update_ids[] = $p->ID;
+		$update_where[] = "%s";
+echo $p->ID;
+echo "<br>";
+echo $p->post_title;
+echo "<br>";
 		// categs to custom fields
 		$cats = get_the_category($p->ID);
 		$end_tax_slugs = array();
@@ -125,6 +135,21 @@ function basurama_posts_to_portfolio_pt() {
 
 		}
 	} // end foreach $projects
+
+	// update WPML translations table
+	global $wpdb;
+	$update_where_string = implode(", ",$update_where);
+	$table = $wpdb->prefix . "icl_translations";
+	$col_to_update = "element_type";
+	$old_value = "post_post";
+	$new_value = "post_portfolio";
+	$query_update = "
+		UPDATE $table
+		SET $col_to_update = $new_value
+		WHERE id IN ($update_where_string)
+		  AND $col_to_update = $old_value
+	";
+	$wpdb->query( $wpdb->prepare($query_update, $update_ids) );
 
 } // end move post in project category to portfolio post type
 
