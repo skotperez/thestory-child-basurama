@@ -25,12 +25,49 @@ function basurama_theme_setup() {
 	add_filter( 'pre_get_posts', 'basurama_custom_args_for_loops' );
 
 	// get last year of a project and add the number as a CF to sort portfolio gallery
-	add_action('save_post', 'basurama_project_add_last_year_cf',10);
+	add_action( 'save_post', 'basurama_project_add_last_year_cf', 10 );
 
 	// load text domain for child theme
-	load_theme_textdomain('basurama', get_stylesheet_directory_uri() . '/lang');
-	
+	load_theme_textdomain( 'basurama', get_stylesheet_directory_uri() . '/lang' );
+
+	// unfilter admin and editor roles to allow them to include HTML tags in content when activating theme
+	add_action( 'init', 'basurama_kses_init', 11 );
+	add_action( 'set_current_user', 'basurama_kses_init', 11 );
+	add_action( 'after_switch_theme', 'basurama_unfilter_roles', 10 ); 
+
+	// refilter admin and editor roles when deactivating theme
+	add_action( 'switch_theme', 'basurama_refilter_roles', 10 );
+
 } // end theme setup main function
+
+// remove KSES filters for admins and editors
+function basurama_kses_init() {
+ 	if ( current_user_can( 'edit_others_posts' ) )
+		kses_remove_filters();
+}
+
+// add unfiltered_html capability for admins and editors
+function basurama_unfilter_roles() {
+	// Makes sure $wp_roles is initialized
+	get_role( 'administrator' );
+
+	global $wp_roles;
+	// Dont use get_role() wrapper, it doesn't work as a one off.
+	// (get_role does not properly return as reference)
+	$wp_roles->role_objects['administrator']->add_cap( 'unfiltered_html' );
+	$wp_roles->role_objects['editor']->add_cap( 'unfiltered_html' );
+}
+
+// remove unfiltered_html capability for admins and editors
+function basurama_refilter_roles() {
+ 	get_role( 'administrator' );
+	global $wp_roles;
+	// Could use the get_role() wrapper here since this function is never
+	// called as a one off.  It is always called to alter the role as
+	// stored in the DB.
+	$wp_roles->role_objects['administrator']->remove_cap( 'unfiltered_html' );
+	$wp_roles->role_objects['editor']->remove_cap( 'unfiltered_html' );
+}
 
 // load js scripts to avoid conflicts
 function basurama_load_admin_scripts() {
