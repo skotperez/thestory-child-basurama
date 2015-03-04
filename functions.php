@@ -640,11 +640,11 @@ function basurama_get_meta($meta_key) {
 
 	} // END if WPML plugin is active
 	
+	if ( $query_results == NULL )
+		return NULL;
 
 	$options = array();
-	foreach ( $query_results as $r ) {
-		$options[$r->meta_value] = $r->meta_value;
-	}
+	foreach ( $query_results as $r ) { $options[$r->meta_value] = $r->meta_value; }
 	return $options;
 
 } // END to get all values in a meta key
@@ -676,7 +676,13 @@ function basurama_extra_metaboxes( $meta_boxes ) {
 	// Better has an underscore as last sign
 	$prefix = '_basurama_';
 
-	foreach ( array("date","city","country","material") as $mb ) {
+	foreach ( array(
+	 'date' => "No year",
+	 'city' => "No city",
+	 'country' => "No country",
+	 'material' => "No material" ) as $mb => $ie ) {
+		$options = basurama_get_meta('_basurama_project_'.$mb);
+		if ( $options == '' ) { $options[$ie] = $ie; }
 	// Project meta boxex
 	$meta_boxes[] = array(	
 		'id' => 'project_'.$mb,// Meta box id, UNIQUE per meta box. Optional since 4.1.5
@@ -692,7 +698,7 @@ function basurama_extra_metaboxes( $meta_boxes ) {
 				'id' => "{$prefix}project_".$mb,
 				'type' => 'checkbox_list',
 				// Options of checkboxes, in format 'value' => 'Label'
-				'options' => basurama_get_meta('_basurama_project_'.$mb)
+				'options' => $options
 			)
 		)
 	);
