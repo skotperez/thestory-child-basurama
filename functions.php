@@ -276,7 +276,7 @@ function basurama_get_portfolio_slider_item_html($post) {
 	$terms=wp_get_post_terms( $post->ID, PEXETO_PORTFOLIO_TAXONOMY );
 	$term_names=array();
 	foreach ( $terms as $term ) {
-		$term_names[]=$term->name;
+		$term_names[]=str_replace('@'.ICL_LANGUAGE_CODE, '', $term->name);
 	}
 
 	$ps_basics = basurama_get_gallery_thumbnail_html($post);
