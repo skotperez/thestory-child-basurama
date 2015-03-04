@@ -144,7 +144,7 @@ function basurama_build_taxonomies() {
 function basurama_custom_args_for_loops( $query ) {
 	if ( is_page_template('template-portfolio-gallery.php') && array_key_exists('post_type', $query->query_vars ) && $query->query_vars['post_type'] == PEXETO_PORTFOLIO_POST_TYPE ) { 
 		$query->set( 'order','DESC');
-		$query->set( 'orderby','meta_value_num');
+		$query->set( 'orderby','meta_value_num date');
 		$query->set( 'meta_key','_basurama_project_date_last');
 	} elseif ( !is_admin() && is_search() && $query->is_main_query() ) {
 		$query->set( 'post_type',PEXETO_PORTFOLIO_POST_TYPE);
