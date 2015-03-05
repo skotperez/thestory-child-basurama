@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Child theme of Story for basurama\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-24 15:48+0100\n"
+"POT-Creation-Date: 2015-03-05 12:18+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: skotperez <skotperez@voragine.net>\n"
 "Language-Team:  <info@basurama.org>\n"
@@ -23,39 +23,96 @@ msgstr ""
 msgid "All"
 msgstr "Todos"
 
-#: ../functions.php:162
+#: ../functions.php:101
+msgid "Texts"
+msgstr "Textos"
+
+#: ../functions.php:102
+msgid "Text"
+msgstr "Texto"
+
+#: ../functions.php:103
+msgid "Add text"
+msgstr "Añadir texto"
+
+#: ../functions.php:104
+msgid "Edit"
+msgstr "Editar"
+
+#: ../functions.php:105
+msgid "Edit this text"
+msgstr "Editar este texto"
+
+#: ../functions.php:106
+msgid "New text"
+msgstr "Nuevo texto"
+
+#: ../functions.php:107
+msgid "View text"
+msgstr "Ver texto"
+
+#: ../functions.php:108
+msgid "View this text"
+msgstr "Ver este texto"
+
+#: ../functions.php:109
+msgid "Search texts"
+msgstr "Buscar textos"
+
+#: ../functions.php:110
+msgid "No texts found"
+msgstr "Ningún texto encontrado"
+
+#: ../functions.php:111
+msgid "No texts in the trash"
+msgstr "Ningún texto en la papelera"
+
+#: ../functions.php:112
+msgid "Parent"
+msgstr "Superior"
+
+#: ../functions.php:114
+msgid "Basurama's texts selection"
+msgstr "Selección de textos de Basurama"
+
+#: ../functions.php:135
+msgid "Text type"
+msgstr "Tipo de texto"
+
+#: ../functions.php:290
 msgid "Co-authors"
 msgstr "Co-autores"
 
-#: ../functions.php:163
+#: ../functions.php:291
 msgid "Institutions"
 msgstr "Instituciones"
 
-#: ../functions.php:164
+#: ../functions.php:292
 msgid "Collaborators"
 msgstr "Colaboradores"
 
-#: ../functions.php:165
-msgid "Measurements"
+#: ../functions.php:294
+#, fuzzy
+msgid "Measures"
 msgstr "Tamaño"
 
-#: ../functions.php:166
-msgid "Funded by"
-msgstr "Financiado por"
+#: ../functions.php:295
+msgid "Funders"
+msgstr "Financiadores"
 
-#: ../functions.php:167
+#: ../functions.php:296
 msgid "Thanks to"
 msgstr "Agradecimientos"
 
-#: ../functions.php:196
+#: ../functions.php:330
 msgid "Technical details"
 msgstr "Ficha ténica"
 
-#: ../functions.php:531
+#: ../functions.php:707
 msgid "If multiple cities or countries"
 msgstr "Rellenar si el proyecto tiene múltiples ciudades o países"
 
-#: ../functions.php:540
+#: ../functions.php:716
 msgid "If the project has took place in more than one city or country, write here all the cities and countries with the exact format you want them to appear in Portfolio and project page. And fill in the city and country checkboxes too."
 msgstr "Si el proyecto tuvo lugar en más de una ciudad o país, escribe a continuación todas las ciudades y países con el formato exacto en el que quieras que aparezcan en la página de Portfolio y en la del proyecto. No olvides marcar las ciudades y países en los listados encima de esta caja."
 

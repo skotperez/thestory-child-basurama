@@ -291,8 +291,8 @@ function basurama_get_portfolio_slider_item_html($post) {
 	$basu_extra['institution'] = array( 'label' => __('Institutions','basurama'), 'text' => get_post_meta($post->ID,'_basurama_project_institution',true));
 	$basu_extra['collaborator'] = array( 'label' => __('Collaborators','basurama'), 'text' => get_post_meta($post->ID,'_basurama_project_collaborator',true));
 	$wysiwyg_fields = array(
-		array( __('Measurements','basurama'),'measurements' ),
-		array( __('Funded by','basurama'),'funder' ),
+		array( __('Measures','basurama'),'measurements' ),
+		array( __('Funders','basurama'),'funder' ),
 		array( __('Thanks to','basurama'),'thanks' )
 	);
 	foreach ( $wysiwyg_fields as $w ) {
