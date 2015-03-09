@@ -56,7 +56,7 @@ if(have_posts()){
 					<a data-cat="-1" href="<?php echo esc_url( $pexeto_gal->page_url ); ?>" <?php echo $pexeto_gal->cclass; ?>><?php _e( 'All', 'pexeto' ); ?></a>
 				</li>
 				<?php
-				$pexeto_gal->cat_args = array("hide_empty"=>false, "hierarchical"=>true);
+				$pexeto_gal->cat_args = array("hide_empty"=>true, "hierarchical"=>true);
 
 				if(!empty($pexeto_gal->filter_cats)){
 					$filter = $pexeto_gal->filter_type=='include'?'include':'exclude_tree';
