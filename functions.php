@@ -162,8 +162,11 @@ function basurama_project_add_last_year_cf($post_id) {
 		return;
 
 	$years = get_post_meta($post_id,'_basurama_project_date');
-	rsort($years);
-	update_post_meta($post_id,'_basurama_project_date_last',$years[0]);
+	if ( count($years) >= 1 ) {
+		rsort($years);
+		update_post_meta($post_id,'_basurama_project_date_last',$years[0]);
+	}
+
 } // END get last year of a project and add the number as a CF to sort portfolio gallery
 
 ////
@@ -553,6 +556,7 @@ function basurama_get_portfolio_slider_item_html($post) {
 				'taxonomies' => array( PEXETO_PORTFOLIO_TAXONOMY ),
 				'supports' => array( 'title', 'editor', 'thumbnail', 'page-attributes','revisions' ) ) );
 
+		flush_rewrite_rules();
 	}
 
 
