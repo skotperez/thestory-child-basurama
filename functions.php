@@ -6,6 +6,9 @@ function basurama_theme_setup() {
 	// hook migration functions
 //	add_action( 'wp_footer','basurama_posts_to_portfolio_pt');
 
+	// Redefine Story Theme custom post type portfolio
+	add_action( 'init', 'pexeto_register_portfolio_post_type' );
+
 	/* Load JavaScript files for admin screens */
 	add_action( 'admin_enqueue_scripts', 'basurama_load_admin_scripts' );
 //	add_action( 'wp_enqueue_scripts', 'basurama_load_frontend_scripts');
@@ -348,8 +351,8 @@ function basurama_get_portfolio_slider_item_html($post) {
 //
 // 1. pexeto_get_gallery_thumbnail_html
 // 2. pexeto_get_portfolio_slider_item_html
+// 3. pexeto_register_portfolio_post_type
 ////
-
 	/**
 	 * Generates the HTML code for a gallery thumbnail item.
 	 *
@@ -518,6 +521,41 @@ function basurama_get_portfolio_slider_item_html($post) {
 
 		return $html;
 	}
+
+	/**
+	 * Registers the portfolio custom type.
+	 */
+	function pexeto_register_portfolio_post_type() {
+
+		//the labels that will be used for the portfolio items
+		$labels = array(
+			'name' => _x( 'Portfolio', 'portfolio name', 'pexeto_admin' ),
+			'singular_name' => _x( 'Portfolio Item', 'portfolio type singular name', 'pexeto_admin' ),
+			'add_new' => _x( 'Add New', 'portfolio', 'pexeto_admin' ),
+			'add_new_item' => __( 'Add New Item', 'pexeto_admin' ),
+			'edit_item' => __( 'Edit Item', 'pexeto_admin' ),
+			'new_item' => __( 'New Portfolio Item', 'pexeto_admin' ),
+			'view_item' => __( 'View Item', 'pexeto_admin' ),
+			'search_items' => __( 'Search Portfolio Items', 'pexeto_admin' ),
+			'not_found' =>  __( 'No portfolio items found', 'pexeto_admin' ),
+			'not_found_in_trash' => __( 'No portfolio items found in Trash', 'pexeto_admin' ),
+			'parent_item_colon' => ''
+		);
+
+		//register the custom post type
+		register_post_type( PEXETO_PORTFOLIO_POST_TYPE,
+			array( 'labels' => $labels,
+				'public' => true,
+				'show_ui' => true,
+				'capability_type' => 'post',
+				'hierarchical' => false,
+				'rewrite' => array( 'slug'=>'projects' ),
+				'taxonomies' => array( PEXETO_PORTFOLIO_TAXONOMY ),
+				'supports' => array( 'title', 'editor', 'thumbnail', 'page-attributes','revisions' ) ) );
+
+	}
+
+
 
 /**
  * Define the metabox and field configurations.
