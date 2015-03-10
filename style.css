@@ -41,17 +41,15 @@ Template:       thestory
 	color: #000;
 	font-size: 12px;
 	padding-bottom: 1em;
+	clear: both;
 }
 .ps-extra-label {
 	text-transform: uppercase;
-/*	color: #fff;
-	background-color: #ddd;
-	padding: 1px 3px;
-	-webkit-border-radius: 2px;
-	-moz-border-radius: 2px;
-	border-radius: 2px;
-*/
 }
+.ps-content-text a {
+	font-weight: bold;
+}
+
 
 /* portfolio gallery */
 .pg-cat-filter ul {
@@ -81,4 +79,12 @@ ul.menu-ul>.menu-item-language > a {
 ul.menu-ul>.menu-item-language > a:before {
 	content: " /";
 	padding-left: 5px;
+}
+
+/* media queries */
+/* Smallest devices (mobiles, px and up) */
+@media (max-width: 767px) {
+	.ps-fullwidth .ps-side { float: none; width: 100%;}
+	.ps-side-down { margin-top: 10px;}
+	.ps-fullwidth .ps-content-text { margin-left: 0%; }
 }
