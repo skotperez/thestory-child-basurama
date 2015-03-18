@@ -27,6 +27,9 @@ function basurama_theme_setup() {
 	// custom loops for each template
 	add_filter( 'pre_get_posts', 'basurama_custom_args_for_loops' );
 
+	// change options array for pages $pexeto_page
+	add_action('the_post','basurama_pexeto_page_options');
+
 	// get last year of a project and add the number as a CF to sort portfolio gallery
 	add_action( 'save_post', 'basurama_project_add_last_year_cf', 10 );
 
@@ -154,6 +157,12 @@ function basurama_custom_args_for_loops( $query ) {
 	}
 	return $query;
 } // END custom args for loops
+
+// change options array for pages $pexeto_page
+function basurama_pexeto_page_options() {
+	global $pexeto_page;
+	if ( is_search() ) { $pexeto_page['layout'] = 'full'; }
+} // END change options array for pages $pexeto_page
 
 // get last year of a project and add the number as a CF to sort portfolio gallery
 function basurama_project_add_last_year_cf($post_id) {
