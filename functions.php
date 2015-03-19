@@ -11,7 +11,7 @@ function basurama_theme_setup() {
 
 	/* Load JavaScript files for admin screens */
 	add_action( 'admin_enqueue_scripts', 'basurama_load_admin_scripts' );
-//	add_action( 'wp_enqueue_scripts', 'basurama_load_frontend_scripts');
+	add_action( 'wp_enqueue_scripts', 'basurama_load_frontend_scripts');
 
 	// Custom post types
 	add_action( 'init', 'basurama_create_post_type', 0 );
@@ -78,7 +78,7 @@ function basurama_refilter_roles() {
 // load js scripts to avoid conflicts
 function basurama_load_admin_scripts() {
 	wp_enqueue_script(
-		'clone-metabox-js',
+		'clone-metabox',
 		get_stylesheet_directory_uri().'/js/clone.metabox.js',
 		array( 'jquery' ),
 		'0.1',
@@ -88,16 +88,17 @@ function basurama_load_admin_scripts() {
 } // end load eadmin js scripts to avoid conflicts
 
 // load js scripts to avoid conflicts
-//function basurama_load_frontend_scripts() {
-//		wp_enqueue_script(
-//		'script-js',
-//		get_stylesheet_directory_uri().'/js/script.js',
-//		array( 'jquery' ),
-//		'0.1',
-//		false
-//	);
-//
-//} // end load frontend js scripts to avoid conflicts
+function basurama_load_frontend_scripts() {
+	wp_deregister_script( 'pexeto-portfolio-gallery' );
+	wp_enqueue_script(
+		'basurama-portfolio-gallery',
+		get_stylesheet_directory_uri().'/js/basurama-portfolio-gallery.js',
+		array( 'jquery' ),
+		'0.1',
+		false
+	);
+
+} // end load frontend js scripts to avoid conflicts
 
 // register post types
 function basurama_create_post_type() {
