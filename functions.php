@@ -21,8 +21,6 @@ function basurama_theme_setup() {
 
 	// Custom Meta Boxes
 	add_filter( 'cmb2_meta_boxes', 'basurama_metaboxes' );
-	/* Meta Box plugin CF registration */
-	add_filter( 'rwmb_meta_boxes', 'basurama_extra_metaboxes' );
 
 	// custom loops for each template
 	add_filter( 'pre_get_posts', 'basurama_custom_args_for_loops' );
@@ -714,65 +712,5 @@ function basurama_get_post_ids($post_type) {
 	foreach ( $posts as $p ) { $post_ids[] = $p->ID; }
 	return implode(", ",$post_ids);
 } // END to get all post IDs of one post type
-
-/*
- * extra meta boxes
- * out of Meta Box plugin
- */
-function basurama_extra_metaboxes( $meta_boxes ) {
-	/**
-	* prefix of meta keys (optional)
-	* Use underscore (_) at the beginning to make keys hidden
-	* Alt.: You also can make prefix empty to disable it
-	*/
-	// Better has an underscore as last sign
-	$prefix = '_basurama_';
-
-	foreach ( array(
-	 'date' => "No year",
-	 'city' => "No city",
-	 'country' => "No country",
-	 'material' => "No material" ) as $mb => $ie ) {
-		$options = basurama_get_meta('_basurama_project_'.$mb);
-		if ( $options == '' ) { $options[$ie] = $ie; }
-	// Project meta boxex
-	$meta_boxes[] = array(	
-		'id' => 'project_'.$mb,// Meta box id, UNIQUE per meta box. Optional since 4.1.5
-		'title' => 'Project '.$mb, // Meta box title - Will appear at the drag and drop handle bar. Required.	
-		'post_types' => array( 'portfolio' ), // Post types, accept custom post types as well - DEFAULT is 'post'. Can be array (multiple post types) or string (1 post type). Optional.
-		'context' => 'side', // Where the meta box appear: normal (default), advanced, side. Optional.	
-		'priority' => 'high',// Order of meta box: high (default), low. Optional.	
-		'autosave' => true,// Auto save: true, false (default). Optional.
-		// List of meta fields
-		'fields' => array(
-			array(
-				//'name' => 'Years',
-				'id' => "{$prefix}project_".$mb,
-				'type' => 'checkbox_list',
-				// Options of checkboxes, in format 'value' => 'Label'
-				'options' => $options
-			)
-		)
-	);
-	}
-	$meta_boxes[] = array(
-		'title' => __('If multiple cities or countries'),
-		'post_types' => array( 'portfolio' ), // Post types, accept custom post types as well - DEFAULT is 'post'. Can be array (multiple post types) or string (1 post type). Optional.
-		'context' => 'side', // Where the meta box appear: normal (default), advanced, side. Optional.	
-		'priority' => 'high',// Order of meta box: high (default), low. Optional.	
-		'fields' => array(
-			// Group
-			array(
-				//'name' => 'Group', // Optional
-				'id' => $prefix.'project_city_country_output',
-				'desc' => __('If the project has took place in more than one city or country, write here all the cities and countries with the exact format you want them to appear in Portfolio and project page. And fill in the city and country checkboxes too.'),
-				'type' => 'WYSIWYG',
-				'raw' => true
-			),
-		),
-	);
-	return $meta_boxes;
-
-} // end basurama_extra_metaboxes
 
 ?>
