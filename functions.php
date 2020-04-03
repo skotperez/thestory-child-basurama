@@ -13,12 +13,6 @@ function basurama_theme_setup() {
 	add_action( 'admin_enqueue_scripts', 'basurama_load_admin_scripts' );
 	add_action( 'wp_enqueue_scripts', 'basurama_load_frontend_scripts');
 
-	// Custom post types
-	add_action( 'init', 'basurama_create_post_type', 0 );
-
-	// Custom taxonomies
-	add_action( 'init', 'basurama_build_taxonomies', 0 );
-
 	// Custom Meta Boxes
 	add_filter( 'cmb2_meta_boxes', 'basurama_metaboxes' );
 
@@ -97,52 +91,6 @@ function basurama_load_frontend_scripts() {
 	);
 
 } // end load frontend js scripts to avoid conflicts
-
-// register post types
-function basurama_create_post_type() {
-	// Text post type
-	register_post_type( 'texto', array(
-		'labels' => array(
-			'name' => __( 'Texts','basurama' ),
-			'singular_name' => __( 'Text','basurama' ),
-			'add_new_item' => __( 'Add text','basurama' ),
-			'edit' => __( 'Edit','basurama' ),
-			'edit_item' => __( 'Edit this text','basurama' ),
-			'new_item' => __( 'New text','basurama' ),
-			'view' => __( 'View text','basurama' ),
-			'view_item' => __( 'View this text','basurama' ),
-			'search_items' => __( 'Search texts','basurama' ),
-			'not_found' => __( 'No texts found','basurama' ),
-			'not_found_in_trash' => __( 'No texts in the trash','basurama' ),
-			'parent' => __( 'Parent','basurama' )
-		),
-		'description' => __('Basurama\'s texts selection'),
-		'has_archive' => true,
-		'public' => true,
-		'publicly_queryable' => true,
-		'exclude_from_search' => true,
-		'menu_position' => 5,
-//		'menu_icon' => get_template_directory_uri() . '/images/basurama-dashboard-pt-texto.png',
-		'hierarchical' => true, // if true this post type will be as pages
-		'query_var' => true,
-		'supports' => array('title', 'editor','custom-fields','author','comments','revisions','excerpt','page-attributes'),
-		'rewrite' => array('slug'=>'txt','with_front'=>true),
-		'can_export' => true,
-		//'_builtin' => false,
-		'_edit_link' => 'post.php?post=%d'
-	));
-} // END register post types
-
-// Custom Taxonomies
-function basurama_build_taxonomies() {
-	register_taxonomy( 'txt-tp', 'texto', array(
-		'hierarchical' => true,
-		'label' => __('Text type','basurama' ),
-		'query_var' => true,
-		'rewrite' => true )
-	);
-
-} // END register taxonomies
 
 
 // custom args for loops
